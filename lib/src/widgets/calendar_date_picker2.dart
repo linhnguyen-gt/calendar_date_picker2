@@ -308,6 +308,18 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
     });
   }
 
+  void _handlePreviousMonth() {
+    final previousMonth = DateTime(
+        _currentDisplayedMonthDate.year, _currentDisplayedMonthDate.month - 1);
+    _handleDisplayedMonthDateChanged(previousMonth);
+  }
+
+  void _handleNextMonth() {
+    final nextMonth = DateTime(
+        _currentDisplayedMonthDate.year, _currentDisplayedMonthDate.month + 1);
+    _handleDisplayedMonthDateChanged(nextMonth);
+  }
+
   Widget _buildPicker() {
     switch (_mode) {
       case CalendarDatePicker2Mode.day:
@@ -411,6 +423,12 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
                           : CalendarDatePicker2Mode.year,
                     );
                   }
+                },
+                onPreviousMonth: () {
+                  _handlePreviousMonth();
+                },
+                onNextMonth: () {
+                  _handleNextMonth();
                 },
               ),
             ],

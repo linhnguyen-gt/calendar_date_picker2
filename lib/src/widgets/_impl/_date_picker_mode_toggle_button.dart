@@ -11,6 +11,8 @@ class _DatePickerModeToggleButton extends StatefulWidget {
     required this.onMonthPressed,
     required this.onYearPressed,
     required this.config,
+    required this.onPreviousMonth,
+    required this.onNextMonth,
   });
 
   /// The current display of the calendar picker.
@@ -27,6 +29,12 @@ class _DatePickerModeToggleButton extends StatefulWidget {
 
   /// The calendar configurations
   final CalendarDatePicker2Config config;
+
+  /// The callback when the previous month is pressed.
+  final VoidCallback onPreviousMonth;
+
+  /// The callback when the next month is pressed.
+  final VoidCallback onNextMonth;
 
   @override
   _DatePickerModeToggleButtonState createState() =>
@@ -99,26 +107,60 @@ class _DatePickerModeToggleButtonState
 
   @override
   Widget build(BuildContext context) {
-    var datePickerOffsetPadding = _monthNavButtonsWidth;
-    if (widget.config.centerAlignModePicker == true) {
-      datePickerOffsetPadding /= 2;
-    }
+    Widget content = Row(
+      mainAxisAlignment: widget.config.centerAlignModePicker == true
+          ? MainAxisAlignment.center
+          : MainAxisAlignment.start,
+      children: _buildModePickerButtons(),
+    );
 
     return Container(
+      decoration: widget.config.controlsDecoration,
       padding: widget.config.centerAlignModePicker == true
           ? EdgeInsets.zero
           : const EdgeInsetsDirectional.only(start: 16, end: 4),
       height: (widget.config.controlsHeight ?? _subHeaderHeight),
-      child: Row(
-        children: <Widget>[
-          if (widget.mode == CalendarDatePicker2Mode.day &&
-              widget.config.centerAlignModePicker == true)
-            // Give space for the prev/next month buttons that are underneath this row
-            SizedBox(width: datePickerOffsetPadding),
-          ..._buildModePickerButtons(),
-          if (widget.mode == CalendarDatePicker2Mode.day)
-            // Give space for the prev/next month buttons that are underneath this row
-            SizedBox(width: datePickerOffsetPadding),
+      child: Stack(
+        children: [
+          if (widget.config.centerAlignModePicker != true)
+            Positioned(
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: widget.config.lastMonthIcon ??
+                        const Icon(Icons.chevron_left),
+                    onPressed: widget.onPreviousMonth,
+                  ),
+                  IconButton(
+                    icon: widget.config.nextMonthIcon ??
+                        const Icon(Icons.chevron_right),
+                    onPressed: widget.onNextMonth,
+                  )
+                ],
+              ),
+            ),
+          if (widget.config.centerAlignModePicker == true)
+            Positioned.fill(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: widget.config.lastMonthIcon ??
+                        const Icon(Icons.chevron_left),
+                    onPressed: widget.onPreviousMonth,
+                  ),
+                  IconButton(
+                    icon: widget.config.nextMonthIcon ??
+                        const Icon(Icons.chevron_right),
+                    onPressed: widget.onNextMonth,
+                  ),
+                ],
+              ),
+            ),
+          Center(child: content),
         ],
       ),
     );

@@ -509,6 +509,9 @@ class _MyHomePageState extends State<MyHomePage> {
               .difference(DateTime.now().add(const Duration(days: 3)))
               .isNegative &&
           day.isBefore(DateTime.now().add(const Duration(days: 30))),
+      controlsDecoration: const BoxDecoration(
+        color: Colors.red,
+      ),
     );
     return SizedBox(
       width: 375,

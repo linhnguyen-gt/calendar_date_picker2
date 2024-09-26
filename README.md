@@ -149,6 +149,7 @@ var results = await showCalendarDatePicker2Dialog(
 | nextMonthIcon                    | Widget?                           | Custom icon for next month button control                                                                     |
 | controlsHeight                   | double?                           | Custom height for calendar control toggle's height                                                            |
 | controlsTextStyle                | TextStyle?                        | Custom text style for calendar mode toggle control                                                            |
+| controlsDecoration               | Decoration?                       | Custom decoration for the control section of the calendar date picker                                         |
 | centerAlignModePicker            | bool?                             | Flag to centralize year and month text label in controls                                                      |
 | modePickersGap                   | double?                           | Custom gap distance between month and year mode pickers                                                       |
 | disableModePicker                | bool?                             | Flag to disable mode picker and hide the toggle icon                                                          |
